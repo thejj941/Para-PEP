@@ -1,75 +1,47 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+
 <meta charset="UTF-8">
 <title>Carta para PEP</title>
 
 <style>
 
+/* ESTILO GERAL */
+
 body{
 margin:0;
-font-family:Arial;
-text-align:center;
+background:#0a0a0a;
 color:white;
+font-family:Arial, Helvetica, sans-serif;
+text-align:center;
 overflow:hidden;
-background:linear-gradient(#040404,#101010);
-height:100vh;
 }
-
-/* estrelas */
-
-#stars{
-position:fixed;
-width:100%;
-height:100%;
-background:radial-gradient(white 1px, transparent 1px);
-background-size:40px 40px;
-opacity:0.15;
-z-index:-2;
-}
-
-/* nuvens */
-
-#clouds{
-position:fixed;
-width:200%;
-height:100%;
-background:url("https://i.imgur.com/9QZ7Z6S.png");
-opacity:0.15;
-animation:cloudMove 90s linear infinite;
-z-index:-1;
-}
-
-@keyframes cloudMove{
-0%{transform:translateX(0)}
-100%{transform:translateX(-50%)}
-}
-
-/* título */
 
 h1{
 color:#ff3b3b;
 font-size:42px;
-margin-top:30px;
+margin-top:40px;
 }
 
-/* imagens */
-
-img{
-width:220px;
-border-radius:12px;
-margin:10px;
+p{
+font-size:20px;
 }
 
-/* botões */
+/* BOTÕES */
 
 button{
 font-size:20px;
-padding:10px 24px;
-margin:10px;
+padding:12px 26px;
+margin:15px;
 border-radius:10px;
 border:none;
 cursor:pointer;
+transition:0.2s;
+}
+
+button:hover{
+transform:scale(1.08);
 }
 
 #sim{
@@ -87,20 +59,18 @@ top:65%;
 transform:translate(-50%,-50%);
 }
 
-/* radar */
+/* CONTADORES */
+
+#contador{
+color:#bbb;
+}
 
 #radar{
 color:orange;
-font-size:20px;
+font-size:22px;
 }
 
-/* contador */
-
-#contador{
-color:#aaa;
-}
-
-/* número 67 */
+/* EFEITO 67 */
 
 .numero67{
 position:absolute;
@@ -110,54 +80,55 @@ animation:cair 6s linear forwards;
 }
 
 @keyframes cair{
-0%{transform:translateY(-100px)}
-100%{transform:translateY(110vh)}
+
+0%{
+transform:translateY(-100px);
 }
 
-/* tremor */
+100%{
+transform:translateY(110vh);
+}
+
+}
+
+/* TREMER */
 
 .treme{
 animation:tremer 0.15s infinite;
 }
 
 @keyframes tremer{
+
 0%{transform:translate(0,0)}
 25%{transform:translate(6px,-6px)}
 50%{transform:translate(-6px,6px)}
 75%{transform:translate(6px,6px)}
 100%{transform:translate(-6px,-6px)}
+
 }
 
-/* glitch */
+/* FLASH */
 
-.glitch{
-animation:glitch 0.2s infinite;
+.flash{
+animation:flash 0.4s infinite;
 }
 
-@keyframes glitch{
-0%{transform:translate(0,0)}
-20%{transform:translate(-2px,2px)}
-40%{transform:translate(2px,-2px)}
-60%{transform:translate(-2px,-2px)}
-80%{transform:translate(2px,2px)}
-100%{transform:translate(0,0)}
+@keyframes flash{
+
+0%{opacity:1}
+50%{opacity:0.3}
+100%{opacity:1}
+
 }
 
 </style>
+
 </head>
-
 <body>
-
-<div id="stars"></div>
-<div id="clouds"></div>
 
 <h1>⚠ ALERTA DO SISTEMA ⚠</h1>
 
 <p id="texto">atividade suspeita detectada</p>
-
-<img id="meme" src="inicio.jpg">
-
-<br>
 
 <button id="sim">SIM</button>
 <button id="nao">NÃO</button>
@@ -165,59 +136,70 @@ animation:glitch 0.2s infinite;
 <p id="contador"></p>
 <p id="radar"></p>
 
-<audio id="boom">
-<source src="https://www.myinstants.com/media/sounds/vine-boom.mp3">
-</audio>
-
-<audio id="laugh">
-<source src="https://www.myinstants.com/media/sounds/evil-laugh.mp3">
-</audio>
-
-<audio id="dramatic">
-<source src="https://www.myinstants.com/media/sounds/movie_1.mp3">
-</audio>
-
 <script>
 
-let tentativas=0
-let distancia=14
+/* VARIÁVEIS */
 
-const nao=document.getElementById("nao")
+let tentativas=0
+let distancia=15
+let fase=0
+
 const texto=document.getElementById("texto")
+const nao=document.getElementById("nao")
 const contador=document.getElementById("contador")
 const radar=document.getElementById("radar")
-const meme=document.getElementById("meme")
+
+/* BOTÃO NÃO FUGINDO */
 
 function fugir(){
 
 tentativas++
 
-document.getElementById("boom").play()
-
 contador.innerHTML="Tentativas de apertar NÃO: "+tentativas
 
 if(tentativas==1){
+
 texto.innerHTML="🤨 tentando apertar NÃO?"
+
 }
 
 if(tentativas==2){
+
 texto.innerHTML="⚠ tentativa registrada"
+
 }
 
 if(tentativas==3){
+
 texto.innerHTML="aceita logo carai"
+
 }
 
 if(tentativas==4){
+
+texto.innerHTML="🚨 radar ativado"
+
 document.body.classList.add("treme")
+
 iniciarRadar()
+
 }
 
 if(tentativas==5){
-texto.innerHTML="💀 modo meme ativado"
-chuvaMemes()
+
+texto.innerHTML="💀 modo 67 ativado"
+
 chuva67()
+
 }
+
+if(tentativas>=7){
+
+texto.innerHTML="💀 desistiu de apertar não né"
+
+}
+
+/* mover botão */
 
 let x=Math.random()*window.innerWidth
 let y=Math.random()*window.innerHeight
@@ -229,7 +211,7 @@ nao.style.top=y+"px"
 
 nao.addEventListener("mouseover", fugir)
 
-/* radar */
+/* RADAR */
 
 function iniciarRadar(){
 
@@ -243,43 +225,17 @@ if(distancia<=0){
 
 radar.innerHTML="⚠ inspeção iniciada"
 
-document.body.classList.add("glitch")
-
-setTimeout(()=>{
 document.body.classList.remove("treme")
-},4000)
 
 clearInterval(intervalo)
 
 }
 
-},1500)
+},1400)
 
 }
 
-/* chuva de memes */
-
-function chuvaMemes(){
-
-setInterval(()=>{
-
-let img=document.createElement("img")
-
-img.src=Math.random()>0.5?"inicio.jpg":"resenha.jpg"
-
-img.style.position="absolute"
-img.style.width="120px"
-img.style.left=Math.random()*100+"vw"
-
-document.body.appendChild(img)
-
-setTimeout(()=>img.remove(),6000)
-
-},600)
-
-}
-
-/* chuva 67 */
+/* CHUVA 67 */
 
 function chuva67(){
 
@@ -295,17 +251,27 @@ n.style.left=Math.random()*100+"vw"
 
 document.body.appendChild(n)
 
-setTimeout(()=>n.remove(),6000)
+setTimeout(()=>{
 
-},500)
+n.remove()
+
+},6000)
+
+},400)
 
 }
 
-/* botão SIM */
+/* BOTÃO SIM */
 
 document.getElementById("sim").onclick=function(){
 
-document.getElementById("dramatic").play()
+fase1()
+
+}
+
+/* FASES */
+
+function fase1(){
 
 document.body.innerHTML=`
 
@@ -313,41 +279,41 @@ document.body.innerHTML=`
 
 <p>analisando decisão...</p>
 
-<img src="inicio.jpg">
-
 `
 
-setTimeout(()=>{
+setTimeout(fase2,3000)
+
+}
+
+function fase2(){
 
 document.body.innerHTML=`
 
-<h1>⏳ verificando compatibilidade...</h1>
+<h1>⏳ verificando compatibilidade</h1>
 
 <p>processando dados...</p>
 
 `
 
-},4000)
+setTimeout(fase3,3500)
 
-setTimeout(()=>{
+}
+
+function fase3(){
 
 document.body.innerHTML=`
 
-<h1>⚠ averiguando possível resenha</h1>
+<h1 class="flash">⚠ averiguando possível resenha</h1>
 
-<img src="resenha.jpg">
-
-<p>talvez eu aceite esse sonho na GPT-8</p>
+<p>análise concluída</p>
 
 <button onclick="numeroProibido()">entrar no número proibido</button>
 
 `
 
-},9000)
-
 }
 
-/* número proibido */
+/* NUMERO PROIBIDO */
 
 function numeroProibido(){
 
@@ -374,8 +340,6 @@ n.style.left=Math.random()*100+"vw"
 document.body.appendChild(n)
 
 }
-
-document.getElementById("laugh").play()
 
 },2000)
 
