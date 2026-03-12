@@ -2,24 +2,26 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Uma pergunta muito séria 😳</title>
+<title>Pergunta muito séria</title>
 
 <style>
 
 body{
-background:#ffb6c1;
+background:black;
+color:white;
 font-family:Arial;
 text-align:center;
 overflow:hidden;
 }
 
 h1{
-margin-top:60px;
+margin-top:80px;
+font-size:40px;
 }
 
 button{
-font-size:20px;
-padding:12px 25px;
+font-size:25px;
+padding:15px 35px;
 margin:10px;
 cursor:pointer;
 }
@@ -28,31 +30,9 @@ cursor:pointer;
 position:relative;
 }
 
-#game{
-height:80vh;
-position:relative;
-}
-
-.heart{
-position:absolute;
-font-size:30px;
-cursor:pointer;
-animation:subir 4s linear;
-}
-
-@keyframes subir{
-0%{transform:translateY(100vh);}
-100%{transform:translateY(-100vh);}
-}
-
 img{
-width:200px;
-animation:flutuar 3s infinite alternate;
-}
-
-@keyframes flutuar{
-from{transform:translateY(0);}
-to{transform:translateY(-15px);}
+width:250px;
+margin-top:30px;
 }
 
 </style>
@@ -65,16 +45,18 @@ to{transform:translateY(-15px);}
 <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mp3">
 </audio>
 
-<img src="https://media.tenor.com/jU9pG2S9pY4AAAAi/anime-love.gif">
+<h1>🚨 PERGUNTA MUITO SÉRIA 🚨</h1>
 
-<h1>Quer namorar comigo? 😏</h1>
+<img src="https://i.imgur.com/6X4Kp7R.png">
+
+<h2>Quer namorar comigo? 😳</h2>
 
 <button onclick="sim()">SIM</button>
 <button id="nao">NÃO</button>
 
 <script>
 
-const nao = document.getElementById("nao")
+const nao=document.getElementById("nao")
 
 nao.addEventListener("mouseover",()=>{
 
@@ -91,8 +73,8 @@ function sim(){
 
 document.body.innerHTML=`
 
-<h1>😳 Sério??</h1>
-<h2>Processando resposta...</h2>
+<h1>😳 CALMA</h1>
+<h2>Analisando decisão...</h2>
 
 `
 
@@ -100,11 +82,12 @@ setTimeout(()=>{
 
 document.body.innerHTML=`
 
-<h1>😂 Pois é...</h1>
-<h2>Eu também não quero</h2>
+<h1>🤔 Hmmmm...</h1>
 <h2>Talvez só em 2028</h2>
-<h3>Mas já que você chegou até aqui...</h3>
-<button onclick="startGame()">Desafio secreto 😏</button>
+
+<img src="https://i.imgur.com/8QfQF5F.png">
+
+<button onclick="continuar()">Continuar</button>
 
 `
 
@@ -112,52 +95,19 @@ document.body.innerHTML=`
 
 }
 
-let pontos=0
-
-function startGame(){
+function continuar(){
 
 document.body.innerHTML=`
 
-<h1>🎮 Capture meu coração</h1>
-<h3>Clique em 10 corações</h3>
-<h2 id="score">0</h2>
-<div id="game"></div>
+<h1>💀 VOCÊ CAIU NO SHITPOST</h1>
+
+<img src="https://i.imgur.com/tV6Y9sX.gif">
+
+<h2>Ronaldo vendo isso:</h2>
+
+<button onclick="final()">ACEITAR DESTINO</button>
 
 `
-
-setInterval(criarCoracao,800)
-
-}
-
-function criarCoracao(){
-
-const heart=document.createElement("div")
-
-heart.classList.add("heart")
-
-heart.innerHTML="❤️"
-
-heart.style.left=Math.random()*100+"%"
-
-heart.onclick=function(){
-
-pontos++
-
-document.getElementById("score").innerText=pontos
-
-heart.remove()
-
-if(pontos>=10){
-
-final()
-
-}
-
-}
-
-document.getElementById("game").appendChild(heart)
-
-setTimeout(()=>heart.remove(),4000)
 
 }
 
@@ -165,22 +115,17 @@ function final(){
 
 document.body.innerHTML=`
 
-<h1>❤️ Você capturou meu coração!</h1>
-<h2>Carregando resposta final...</h2>
+<h1>😈 TROLL FINAL</h1>
+
+<h2>Agora você oficialmente aceitou namorar comigo</h2>
+
+<h3>Não tem botão de voltar</h3>
+
+<h3>Parabéns 😂</h3>
+
+<img src="https://i.imgur.com/Yq7XGQK.gif">
 
 `
-
-setTimeout(()=>{
-
-document.body.innerHTML+=`
-
-<h1>😈 Troll nível máximo</h1>
-<h2>Agora você é oficialmente minha namorada</h2>
-<h3>Sem botão de voltar 😂</h3>
-
-`
-
-},4000)
 
 }
 
