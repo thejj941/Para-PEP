@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Uma pergunta muito séria 😳</title>
+
+<style>
+
+body{
+background:#ffb6c1;
+font-family:Arial;
+text-align:center;
+overflow:hidden;
+}
+
+h1{
+margin-top:60px;
+}
+
+button{
+font-size:20px;
+padding:12px 25px;
+margin:10px;
+cursor:pointer;
+}
+
+#nao{
+position:relative;
+}
+
+#game{
+height:80vh;
+position:relative;
+}
+
+.heart{
+position:absolute;
+font-size:30px;
+cursor:pointer;
+animation:subir 4s linear;
+}
+
+@keyframes subir{
+0%{transform:translateY(100vh);}
+100%{transform:translateY(-100vh);}
+}
+
+img{
+width:200px;
+animation:flutuar 3s infinite alternate;
+}
+
+@keyframes flutuar{
+from{transform:translateY(0);}
+to{transform:translateY(-15px);}
+}
+
+</style>
+
+</head>
+
+<body>
+
+<audio autoplay loop>
+<source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mp3">
+</audio>
+
+<img src="https://media.tenor.com/jU9pG2S9pY4AAAAi/anime-love.gif">
+
+<h1>Quer namorar comigo? 😏</h1>
+
+<button onclick="sim()">SIM</button>
+<button id="nao">NÃO</button>
+
+<script>
+
+const nao = document.getElementById("nao")
+
+nao.addEventListener("mouseover",()=>{
+
+const x=Math.random()*window.innerWidth
+const y=Math.random()*window.innerHeight
+
+nao.style.position="absolute"
+nao.style.left=x+"px"
+nao.style.top=y+"px"
+
+})
+
+function sim(){
+
+document.body.innerHTML=`
+
+<h1>😳 Sério??</h1>
+<h2>Processando resposta...</h2>
+
+`
+
+setTimeout(()=>{
+
+document.body.innerHTML=`
+
+<h1>😂 Pois é...</h1>
+<h2>Eu também não quero</h2>
+<h2>Talvez só em 2028</h2>
+<h3>Mas já que você chegou até aqui...</h3>
+<button onclick="startGame()">Desafio secreto 😏</button>
+
+`
+
+},3000)
+
+}
+
+let pontos=0
+
+function startGame(){
+
+document.body.innerHTML=`
+
+<h1>🎮 Capture meu coração</h1>
+<h3>Clique em 10 corações</h3>
+<h2 id="score">0</h2>
+<div id="game"></div>
+
+`
+
+setInterval(criarCoracao,800)
+
+}
+
+function criarCoracao(){
+
+const heart=document.createElement("div")
+
+heart.classList.add("heart")
+
+heart.innerHTML="❤️"
+
+heart.style.left=Math.random()*100+"%"
+
+heart.onclick=function(){
+
+pontos++
+
+document.getElementById("score").innerText=pontos
+
+heart.remove()
+
+if(pontos>=10){
+
+final()
+
+}
+
+}
+
+document.getElementById("game").appendChild(heart)
+
+setTimeout(()=>heart.remove(),4000)
+
+}
+
+function final(){
+
+document.body.innerHTML=`
+
+<h1>❤️ Você capturou meu coração!</h1>
+<h2>Carregando resposta final...</h2>
+
+`
+
+setTimeout(()=>{
+
+document.body.innerHTML+=`
+
+<h1>😈 Troll nível máximo</h1>
+<h2>Agora você é oficialmente minha namorada</h2>
+<h3>Sem botão de voltar 😂</h3>
+
+`
+
+},4000)
+
+}
+
+</script>
+
+</body>
+</html>
