@@ -1,36 +1,51 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-
 <meta charset="UTF-8">
 <title>Carta para PEP</title>
 
 <style>
 
 body{
-background:black;
-color:white;
-font-family:Arial;
-text-align:center;
 margin:0;
-padding-top:40px;
+font-family:Arial;
+color:white;
+text-align:center;
+height:100vh;
 overflow:hidden;
+background:linear-gradient(#0a0a0a,#1a1a1a);
+}
+
+#ceu{
+position:fixed;
+width:100%;
+height:100%;
+background:url("https://i.imgur.com/9QZ7Z6S.png");
+background-size:cover;
+opacity:0.25;
+z-index:-1;
+animation:nuvens 60s linear infinite;
+}
+
+@keyframes nuvens{
+0%{background-position:0 0}
+100%{background-position:1000px 0}
 }
 
 h1{
-color:red;
-font-size:42px;
+color:#ff4444;
+font-size:40px;
 }
 
 img{
-width:260px;
-border-radius:15px;
-margin:15px;
+width:220px;
+border-radius:12px;
+margin:12px;
 }
 
 button{
-font-size:22px;
-padding:12px 25px;
+font-size:20px;
+padding:10px 22px;
 margin:10px;
 border-radius:10px;
 border:none;
@@ -52,21 +67,9 @@ top:65%;
 transform:translate(-50%,-50%);
 }
 
-#contador{
-margin-top:10px;
-font-size:18px;
-color:#aaa;
-}
-
-#radar{
-font-size:22px;
-margin-top:20px;
-color:orange;
-}
-
 .numero67{
 position:absolute;
-font-size:50px;
+font-size:48px;
 color:red;
 animation:cair 6s linear forwards;
 }
@@ -74,6 +77,16 @@ animation:cair 6s linear forwards;
 @keyframes cair{
 0%{transform:translateY(-100px)}
 100%{transform:translateY(110vh)}
+}
+
+.piscar{
+animation:piscando 0.3s infinite;
+}
+
+@keyframes piscando{
+0%{opacity:1}
+50%{opacity:0.1}
+100%{opacity:1}
 }
 
 .treme{
@@ -93,48 +106,56 @@ animation:tremer 0.15s infinite;
 
 <body>
 
-<h1>⚠️ ALERTA ⚠️</h1>
+<div id="ceu"></div>
 
-<p>Sistema suspeito detectado</p>
+<h1>⚠️ ALERTA DO SISTEMA ⚠️</h1>
 
-<img id="meme" src="inicio.jpg">
+<p id="texto">Sistema detectou atividade suspeita</p>
 
-<h2 id="texto">Quer namorar comigo?</h2>
+<img id="img" src="inicio.jpg">
+
+<br>
 
 <button id="sim">SIM</button>
 <button id="nao">NÃO</button>
 
-<div id="contador"></div>
-<div id="radar"></div>
+<p id="contador"></p>
+<p id="radar"></p>
 
 <audio id="boom">
 <source src="https://www.myinstants.com/media/sounds/vine-boom.mp3">
 </audio>
 
+<audio id="risada">
+<source src="https://www.myinstants.com/media/sounds/evil-laugh.mp3">
+</audio>
+
+<audio id="dramatico">
+<source src="https://www.myinstants.com/media/sounds/movie_1.mp3">
+</audio>
+
 <script>
 
 let tentativas=0
-let distancia=12
+let distancia=10
 
 const nao=document.getElementById("nao")
 const texto=document.getElementById("texto")
-const meme=document.getElementById("meme")
 const contador=document.getElementById("contador")
 const radar=document.getElementById("radar")
-
-const boom=document.getElementById("boom")
+const img=document.getElementById("img")
 
 function fugir(){
 
 tentativas++
 
-boom.play()
+document.getElementById("boom").play()
 
-contador.innerHTML="Tentativas de apertar NÃO: "+tentativas
+contador.innerHTML="tentativas de apertar NÃO: "+tentativas
 
 if(tentativas==1){
 texto.innerHTML="🤨 tentando apertar NÃO?"
-meme.src="resenha.jpg"
+img.src="resenha.jpg"
 }
 
 if(tentativas==2){
@@ -152,7 +173,7 @@ iniciarRadar()
 }
 
 if(tentativas==5){
-texto.innerHTML="💀 você insiste demais"
+texto.innerHTML="💀 modo meme ativado"
 chuvaMemes()
 numeros67()
 }
@@ -173,16 +194,14 @@ let intervalo=setInterval(()=>{
 
 distancia--
 
-radar.innerHTML="🚨 fiscalização de memes chegando: "+distancia+" km"
+radar.innerHTML="🚨 fiscalização chegando: "+distancia+" km"
 
 if(distancia<=0){
 
-radar.innerHTML="⚠️ inspeção de memes iniciada"
+radar.innerHTML="⚠️ inspeção iniciada"
 
 setTimeout(()=>{
-
 document.body.classList.remove("treme")
-
 },4000)
 
 clearInterval(intervalo)
@@ -235,9 +254,11 @@ setTimeout(()=>n.remove(),6000)
 
 document.getElementById("sim").onclick=function(){
 
+document.getElementById("dramatico").play()
+
 document.body.innerHTML=`
 
-<h1>😳 VOCÊ APERTOU SIM</h1>
+<h1>😳 você apertou SIM</h1>
 
 <p>analisando decisão...</p>
 
@@ -265,9 +286,9 @@ document.body.innerHTML=`
 
 <img src="resenha.jpg">
 
-<p>talvez eu só aceite em 2028</p>
+<p>talvez eu aceite esse sonho na GPT-8</p>
 
-<button onclick="continuar()">continuar</button>
+<button onclick="numeroProibido()">entrar no número proibido</button>
 
 `
 
@@ -275,17 +296,37 @@ document.body.innerHTML=`
 
 }
 
-function continuar(){
+function numeroProibido(){
 
 document.body.innerHTML=`
 
-<h1>📡 sistema reiniciado</h1>
+<h1 class="piscar">⚠️ NÚMERO PROIBIDO DETECTADO</h1>
 
-<p>você realmente quer tentar de novo?</p>
+<p>executando modo meme...</p>
 
-<button onclick="location.reload()">reiniciar</button>
+<img src="inicio.jpg">
 
 `
+
+setTimeout(()=>{
+
+for(let i=0;i<40;i++){
+
+let n=document.createElement("div")
+
+n.innerHTML="67"
+
+n.className="numero67"
+
+n.style.left=Math.random()*100+"vw"
+
+document.body.appendChild(n)
+
+}
+
+document.getElementById("risada").play()
+
+},2000)
 
 }
 
