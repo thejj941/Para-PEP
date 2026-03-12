@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Carta para PEP</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial;
+color:white;
+text-align:center;
+overflow:hidden;
+background:linear-gradient(#050505,#141414);
+height:100vh;
+}
+
+/* estrelas */
+
+#stars{
+position:fixed;
+width:100%;
+height:100%;
+background:radial-gradient(white 1px, transparent 1px);
+background-size:40px 40px;
+opacity:0.15;
+z-index:-2;
+}
+
+/* nuvens */
+
+#clouds{
+position:fixed;
+width:200%;
+height:100%;
+background:url("https://i.imgur.com/9QZ7Z6S.png");
+opacity:0.18;
+animation:cloudMove 80s linear infinite;
+z-index:-1;
+}
+
+@keyframes cloudMove{
+0%{transform:translateX(0)}
+100%{transform:translateX(-50%)}
+}
+
+h1{
+color:#ff4444;
+font-size:42px;
+margin-top:30px;
+}
+
+img{
+width:220px;
+border-radius:12px;
+margin:10px;
+}
+
+button{
+font-size:20px;
+padding:10px 24px;
+margin:10px;
+border-radius:10px;
+border:none;
+cursor:pointer;
+}
+
+#sim{
+background:black;
+color:white;
+border:2px solid white;
+}
+
+#nao{
+background:red;
+color:white;
+position:absolute;
+left:50%;
+top:65%;
+transform:translate(-50%,-50%);
+}
+
+/* contador */
+
+#contador{
+color:#aaa;
+}
+
+/* radar */
+
+#radar{
+color:orange;
+}
+
+/* número 67 */
+
+.numero67{
+position:absolute;
+font-size:48px;
+color:red;
+animation:cair 6s linear forwards;
+}
+
+@keyframes cair{
+0%{transform:translateY(-100px)}
+100%{transform:translateY(110vh)}
+}
+
+/* tremor */
+
+.treme{
+animation:tremer 0.15s infinite;
+}
+
+@keyframes tremer{
+0%{transform:translate(0,0)}
+25%{transform:translate(6px,-6px)}
+50%{transform:translate(-6px,6px)}
+75%{transform:translate(6px,6px)}
+100%{transform:translate(-6px,-6px)}
+}
+
+/* flash */
+
+.flash{
+animation:flash 0.3s infinite;
+}
+
+@keyframes flash{
+0%{opacity:1}
+50%{opacity:0.2}
+100%{opacity:1}
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="stars"></div>
+<div id="clouds"></div>
+
+<h1>⚠ ALERTA DO SISTEMA ⚠</h1>
+
+<p id="texto">Sistema detectou atividade suspeita</p>
+
+<img id="meme" src="inicio.jpg">
+
+<br>
+
+<button id="sim">SIM</button>
+<button id="nao">NÃO</button>
+
+<p id="contador"></p>
+<p id="radar"></p>
+
+<audio id="boom">
+<source src="https://www.myinstants.com/media/sounds/vine-boom.mp3">
+</audio>
+
+<audio id="laugh">
+<source src="https://www.myinstants.com/media/sounds/evil-laugh.mp3">
+</audio>
+
+<audio id="dramatic">
+<source src="https://www.myinstants.com/media/sounds/movie_1.mp3">
+</audio>
+
+<script>
+
+let tentativas=0
+let distancia=15
+
+const nao=document.getElementById("nao")
+const texto=document.getElementById("texto")
+const contador=document.getElementById("contador")
+const radar=document.getElementById("radar")
+const meme=document.getElementById("meme")
+
+/* botão fugir */
+
+function fugir(){
+
+tentativas++
+
+document.getElementById("boom").play()
+
+contador.innerHTML="Tentativas de apertar NÃO: "+tentativas
+
+if(tentativas==1){
+texto.innerHTML="🤨 tentando apertar NÃO?"
+meme.src="resenha.jpg"
+}
+
+if(tentativas==2){
+texto.innerHTML="⚠ tentativa de fuga detectada"
+}
+
+if(tentativas==3){
+texto.innerHTML="aceita logo carai"
+}
+
+if(tentativas==4){
+texto.innerHTML="🚨 ativando radar"
+document.body.classList.add("treme")
+iniciarRadar()
+}
+
+if(tentativas==5){
+texto.innerHTML="💀 modo meme ativado"
+chuvaMemes()
+chuva67()
+}
+
+let x=Math.random()*window.innerWidth
+let y=Math.random()*window.innerHeight
+
+nao.style.left=x+"px"
+nao.style.top=y+"px"
+
+}
+
+nao.addEventListener("mouseover", fugir)
+
+/* radar */
+
+function iniciarRadar(){
+
+let intervalo=setInterval(()=>{
+
+distancia--
+
+radar.innerHTML="🚨 fiscalização chegando: "+distancia+" km"
+
+if(distancia<=0){
+
+radar.innerHTML="⚠ inspeção iniciada"
+
+setTimeout(()=>{
+document.body.classList.remove("treme")
+},4000)
+
+clearInterval(intervalo)
+
+}
+
+},1500)
+
+}
+
+/* chuva de memes */
+
+function chuvaMemes(){
+
+setInterval(()=>{
+
+let img=document.createElement("img")
+
+img.src=Math.random()>0.5?"inicio.jpg":"resenha.jpg"
+
+img.style.position="absolute"
+img.style.width="120px"
+img.style.left=Math.random()*100+"vw"
+
+document.body.appendChild(img)
+
+setTimeout(()=>img.remove(),6000)
+
+},700)
+
+}
+
+/* chuva 67 */
+
+function chuva67(){
+
+setInterval(()=>{
+
+let n=document.createElement("div")
+
+n.innerHTML="67"
+
+n.className="numero67"
+
+n.style.left=Math.random()*100+"vw"
+
+document.body.appendChild(n)
+
+setTimeout(()=>n.remove(),6000)
+
+},600)
+
+}
+
+/* botão SIM */
+
+document.getElementById("sim").onclick=function(){
+
+document.getElementById("dramatic").play()
+
+document.body.innerHTML=`
+
+<h1>😳 você apertou SIM</h1>
+
+<p>analisando decisão...</p>
+
+<img src="inicio.jpg">
+
+`
+
+setTimeout(()=>{
+
+document.body.innerHTML=`
+
+<h1>⏳ verificando compatibilidade...</h1>
+
+<p>processando dados...</p>
+
+`
+
+},4000)
+
+setTimeout(()=>{
+
+document.body.innerHTML=`
+
+<h1>⚠ averiguando possível resenha</h1>
+
+<img src="resenha.jpg">
+
+<p>talvez eu aceite esse sonho na GPT-8</p>
+
+<button onclick="numeroProibido()">entrar no número proibido</button>
+
+`
+
+},9000)
+
+}
+
+/* número proibido */
+
+function numeroProibido(){
+
+document.body.innerHTML=`
+
+<h1 class="flash">⚠ NÚMERO PROIBIDO DETECTADO</h1>
+
+<p>executando modo meme...</p>
+
+<img src="inicio.jpg">
+
+`
+
+setTimeout(()=>{
+
+for(let i=0;i<60;i++){
+
+let n=document.createElement("div")
+
+n.innerHTML="67"
+
+n.className="numero67"
+
+n.style.left=Math.random()*100+"vw"
+
+document.body.appendChild(n)
+
+}
+
+document.getElementById("laugh").play()
+
+},2000)
+
+}
+
+</script>
+
+</body>
+</html>
