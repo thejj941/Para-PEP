@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+
 <meta charset="UTF-8">
 <title>Carta para PEP</title>
 
@@ -37,11 +38,14 @@ cursor:pointer;
 }
 
 #sim{
-background:#00ff88;
+background:black;
+color:white;
+border:2px solid white;
 }
 
 #nao{
-background:#ff4444;
+background:red;
+color:white;
 position:absolute;
 left:50%;
 top:65%;
@@ -55,21 +59,15 @@ color:#aaa;
 }
 
 #radar{
-font-size:20px;
-margin-top:10px;
+font-size:22px;
+margin-top:20px;
 color:orange;
 }
 
 .numero67{
 position:absolute;
-font-size:40px;
+font-size:50px;
 color:red;
-animation:piscando 0.7s infinite;
-}
-
-.meme{
-position:absolute;
-width:120px;
 animation:cair 6s linear forwards;
 }
 
@@ -88,12 +86,6 @@ animation:tremer 0.15s infinite;
 50%{transform:translate(-6px,6px)}
 75%{transform:translate(6px,6px)}
 100%{transform:translate(-6px,-6px)}
-}
-
-@keyframes piscando{
-0%{opacity:1}
-50%{opacity:0.2}
-100%{opacity:1}
 }
 
 </style>
@@ -119,68 +111,50 @@ animation:tremer 0.15s infinite;
 <source src="https://www.myinstants.com/media/sounds/vine-boom.mp3">
 </audio>
 
-<audio id="risada">
-<source src="https://www.myinstants.com/media/sounds/evil-laugh.mp3">
-</audio>
-
 <script>
 
-let tentativas = 0
-let distancia = 8
+let tentativas=0
+let distancia=12
 
-const nao = document.getElementById("nao")
-const texto = document.getElementById("texto")
-const meme = document.getElementById("meme")
-const contador = document.getElementById("contador")
-const radar = document.getElementById("radar")
+const nao=document.getElementById("nao")
+const texto=document.getElementById("texto")
+const meme=document.getElementById("meme")
+const contador=document.getElementById("contador")
+const radar=document.getElementById("radar")
 
-const boom = document.getElementById("boom")
-const risada = document.getElementById("risada")
+const boom=document.getElementById("boom")
 
 function fugir(){
 
 tentativas++
 
-contador.innerHTML="Tentativas de apertar NÃO: "+tentativas
-
 boom.play()
 
-if(tentativas==1){
+contador.innerHTML="Tentativas de apertar NÃO: "+tentativas
 
+if(tentativas==1){
 texto.innerHTML="🤨 tentando apertar NÃO?"
 meme.src="resenha.jpg"
-
 }
 
 if(tentativas==2){
-
-texto.innerHTML="⚠️ sistema detectou tentativa de fuga"
-
+texto.innerHTML="⚠️ tentativa de fuga detectada"
 }
 
 if(tentativas==3){
-
 texto.innerHTML="aceita logo carai"
-
 }
 
 if(tentativas==4){
-
 texto.innerHTML="🚨 ativando radar"
-
 document.body.classList.add("treme")
-
 iniciarRadar()
-
 }
 
 if(tentativas==5){
-
 texto.innerHTML="💀 você insiste demais"
-
 chuvaMemes()
-mostrar67()
-
+numeros67()
 }
 
 let x=Math.random()*window.innerWidth
@@ -199,19 +173,23 @@ let intervalo=setInterval(()=>{
 
 distancia--
 
-radar.innerHTML="🚨 Fiscal de memes chegando: "+distancia+" km"
+radar.innerHTML="🚨 fiscalização de memes chegando: "+distancia+" km"
 
 if(distancia<=0){
 
-radar.innerHTML="💀 Fiscal de memes chegou"
+radar.innerHTML="⚠️ inspeção de memes iniciada"
 
-risada.play()
+setTimeout(()=>{
+
+document.body.classList.remove("treme")
+
+},4000)
 
 clearInterval(intervalo)
 
 }
 
-},1200)
+},1500)
 
 }
 
@@ -223,34 +201,35 @@ let img=document.createElement("img")
 
 img.src=Math.random()>0.5?"inicio.jpg":"resenha.jpg"
 
-img.className="meme"
-
+img.style.position="absolute"
+img.style.width="120px"
 img.style.left=Math.random()*100+"vw"
 
 document.body.appendChild(img)
 
 setTimeout(()=>img.remove(),6000)
 
-},700)
+},800)
 
 }
 
-function mostrar67(){
+function numeros67(){
 
-for(let i=0;i<20;i++){
+setInterval(()=>{
 
-let num=document.createElement("div")
+let n=document.createElement("div")
 
-num.innerHTML="67"
+n.innerHTML="67"
 
-num.className="numero67"
+n.className="numero67"
 
-num.style.left=Math.random()*100+"vw"
-num.style.top=Math.random()*100+"vh"
+n.style.left=Math.random()*100+"vw"
 
-document.body.appendChild(num)
+document.body.appendChild(n)
 
-}
+setTimeout(()=>n.remove(),6000)
+
+},600)
 
 }
 
@@ -260,9 +239,9 @@ document.body.innerHTML=`
 
 <h1>😳 VOCÊ APERTOU SIM</h1>
 
-<img src="inicio.jpg">
+<p>analisando decisão...</p>
 
-<p>processando decisão...</p>
+<img src="inicio.jpg">
 
 `
 
@@ -270,17 +249,43 @@ setTimeout(()=>{
 
 document.body.innerHTML=`
 
-<h1>💀 TROLL FINAL</h1>
+<h1>⏳ verificando compatibilidade...</h1>
 
-<img src="resenha.jpg">
-
-<h2>eu só namoro em 2028 talvez</h2>
-
-<p>parabéns você caiu no experimento social</p>
+<p>processando dados...</p>
 
 `
 
 },4000)
+
+setTimeout(()=>{
+
+document.body.innerHTML=`
+
+<h1>⚠️ averiguando possível resenha</h1>
+
+<img src="resenha.jpg">
+
+<p>talvez eu só aceite em 2028</p>
+
+<button onclick="continuar()">continuar</button>
+
+`
+
+},9000)
+
+}
+
+function continuar(){
+
+document.body.innerHTML=`
+
+<h1>📡 sistema reiniciado</h1>
+
+<p>você realmente quer tentar de novo?</p>
+
+<button onclick="location.reload()">reiniciar</button>
+
+`
 
 }
 
