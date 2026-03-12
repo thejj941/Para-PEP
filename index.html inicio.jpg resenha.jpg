@@ -9,43 +9,63 @@
 body{
 margin:0;
 font-family:Arial;
-color:white;
 text-align:center;
-height:100vh;
+color:white;
 overflow:hidden;
-background:linear-gradient(#0a0a0a,#1a1a1a);
+background:linear-gradient(#040404,#101010);
+height:100vh;
 }
 
-#ceu{
+/* estrelas */
+
+#stars{
 position:fixed;
 width:100%;
 height:100%;
-background:url("https://i.imgur.com/9QZ7Z6S.png");
-background-size:cover;
-opacity:0.25;
-z-index:-1;
-animation:nuvens 60s linear infinite;
+background:radial-gradient(white 1px, transparent 1px);
+background-size:40px 40px;
+opacity:0.15;
+z-index:-2;
 }
 
-@keyframes nuvens{
-0%{background-position:0 0}
-100%{background-position:1000px 0}
+/* nuvens */
+
+#clouds{
+position:fixed;
+width:200%;
+height:100%;
+background:url("https://i.imgur.com/9QZ7Z6S.png");
+opacity:0.15;
+animation:cloudMove 90s linear infinite;
+z-index:-1;
 }
+
+@keyframes cloudMove{
+0%{transform:translateX(0)}
+100%{transform:translateX(-50%)}
+}
+
+/* título */
 
 h1{
-color:#ff4444;
-font-size:40px;
+color:#ff3b3b;
+font-size:42px;
+margin-top:30px;
 }
+
+/* imagens */
 
 img{
 width:220px;
 border-radius:12px;
-margin:12px;
+margin:10px;
 }
+
+/* botões */
 
 button{
 font-size:20px;
-padding:10px 22px;
+padding:10px 24px;
 margin:10px;
 border-radius:10px;
 border:none;
@@ -67,6 +87,21 @@ top:65%;
 transform:translate(-50%,-50%);
 }
 
+/* radar */
+
+#radar{
+color:orange;
+font-size:20px;
+}
+
+/* contador */
+
+#contador{
+color:#aaa;
+}
+
+/* número 67 */
+
 .numero67{
 position:absolute;
 font-size:48px;
@@ -79,15 +114,7 @@ animation:cair 6s linear forwards;
 100%{transform:translateY(110vh)}
 }
 
-.piscar{
-animation:piscando 0.3s infinite;
-}
-
-@keyframes piscando{
-0%{opacity:1}
-50%{opacity:0.1}
-100%{opacity:1}
-}
+/* tremor */
 
 .treme{
 animation:tremer 0.15s infinite;
@@ -101,18 +128,34 @@ animation:tremer 0.15s infinite;
 100%{transform:translate(-6px,-6px)}
 }
 
+/* glitch */
+
+.glitch{
+animation:glitch 0.2s infinite;
+}
+
+@keyframes glitch{
+0%{transform:translate(0,0)}
+20%{transform:translate(-2px,2px)}
+40%{transform:translate(2px,-2px)}
+60%{transform:translate(-2px,-2px)}
+80%{transform:translate(2px,2px)}
+100%{transform:translate(0,0)}
+}
+
 </style>
 </head>
 
 <body>
 
-<div id="ceu"></div>
+<div id="stars"></div>
+<div id="clouds"></div>
 
-<h1>⚠️ ALERTA DO SISTEMA ⚠️</h1>
+<h1>⚠ ALERTA DO SISTEMA ⚠</h1>
 
-<p id="texto">Sistema detectou atividade suspeita</p>
+<p id="texto">atividade suspeita detectada</p>
 
-<img id="img" src="inicio.jpg">
+<img id="meme" src="inicio.jpg">
 
 <br>
 
@@ -126,24 +169,24 @@ animation:tremer 0.15s infinite;
 <source src="https://www.myinstants.com/media/sounds/vine-boom.mp3">
 </audio>
 
-<audio id="risada">
+<audio id="laugh">
 <source src="https://www.myinstants.com/media/sounds/evil-laugh.mp3">
 </audio>
 
-<audio id="dramatico">
+<audio id="dramatic">
 <source src="https://www.myinstants.com/media/sounds/movie_1.mp3">
 </audio>
 
 <script>
 
 let tentativas=0
-let distancia=10
+let distancia=14
 
 const nao=document.getElementById("nao")
 const texto=document.getElementById("texto")
 const contador=document.getElementById("contador")
 const radar=document.getElementById("radar")
-const img=document.getElementById("img")
+const meme=document.getElementById("meme")
 
 function fugir(){
 
@@ -151,15 +194,14 @@ tentativas++
 
 document.getElementById("boom").play()
 
-contador.innerHTML="tentativas de apertar NÃO: "+tentativas
+contador.innerHTML="Tentativas de apertar NÃO: "+tentativas
 
 if(tentativas==1){
 texto.innerHTML="🤨 tentando apertar NÃO?"
-img.src="resenha.jpg"
 }
 
 if(tentativas==2){
-texto.innerHTML="⚠️ tentativa de fuga detectada"
+texto.innerHTML="⚠ tentativa registrada"
 }
 
 if(tentativas==3){
@@ -167,7 +209,6 @@ texto.innerHTML="aceita logo carai"
 }
 
 if(tentativas==4){
-texto.innerHTML="🚨 ativando radar"
 document.body.classList.add("treme")
 iniciarRadar()
 }
@@ -175,7 +216,7 @@ iniciarRadar()
 if(tentativas==5){
 texto.innerHTML="💀 modo meme ativado"
 chuvaMemes()
-numeros67()
+chuva67()
 }
 
 let x=Math.random()*window.innerWidth
@@ -188,17 +229,21 @@ nao.style.top=y+"px"
 
 nao.addEventListener("mouseover", fugir)
 
+/* radar */
+
 function iniciarRadar(){
 
 let intervalo=setInterval(()=>{
 
 distancia--
 
-radar.innerHTML="🚨 fiscalização chegando: "+distancia+" km"
+radar.innerHTML="🚨 aproximação detectada: "+distancia+" km"
 
 if(distancia<=0){
 
-radar.innerHTML="⚠️ inspeção iniciada"
+radar.innerHTML="⚠ inspeção iniciada"
+
+document.body.classList.add("glitch")
 
 setTimeout(()=>{
 document.body.classList.remove("treme")
@@ -211,6 +256,8 @@ clearInterval(intervalo)
 },1500)
 
 }
+
+/* chuva de memes */
 
 function chuvaMemes(){
 
@@ -228,11 +275,13 @@ document.body.appendChild(img)
 
 setTimeout(()=>img.remove(),6000)
 
-},800)
+},600)
 
 }
 
-function numeros67(){
+/* chuva 67 */
+
+function chuva67(){
 
 setInterval(()=>{
 
@@ -248,13 +297,15 @@ document.body.appendChild(n)
 
 setTimeout(()=>n.remove(),6000)
 
-},600)
+},500)
 
 }
 
+/* botão SIM */
+
 document.getElementById("sim").onclick=function(){
 
-document.getElementById("dramatico").play()
+document.getElementById("dramatic").play()
 
 document.body.innerHTML=`
 
@@ -282,7 +333,7 @@ setTimeout(()=>{
 
 document.body.innerHTML=`
 
-<h1>⚠️ averiguando possível resenha</h1>
+<h1>⚠ averiguando possível resenha</h1>
 
 <img src="resenha.jpg">
 
@@ -296,21 +347,21 @@ document.body.innerHTML=`
 
 }
 
+/* número proibido */
+
 function numeroProibido(){
 
 document.body.innerHTML=`
 
-<h1 class="piscar">⚠️ NÚMERO PROIBIDO DETECTADO</h1>
+<h1 style="color:red">⚠ NÚMERO PROIBIDO</h1>
 
-<p>executando modo meme...</p>
-
-<img src="inicio.jpg">
+<p>executando protocolo 67...</p>
 
 `
 
 setTimeout(()=>{
 
-for(let i=0;i<40;i++){
+for(let i=0;i<80;i++){
 
 let n=document.createElement("div")
 
@@ -324,7 +375,7 @@ document.body.appendChild(n)
 
 }
 
-document.getElementById("risada").play()
+document.getElementById("laugh").play()
 
 },2000)
 
