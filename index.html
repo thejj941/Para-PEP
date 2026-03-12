@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Pergunta muito séria</title>
+<title>Carta para PEP</title>
 
 <style>
 
@@ -11,70 +11,258 @@ background:black;
 color:white;
 font-family:Arial;
 text-align:center;
+margin:0;
+padding-top:40px;
 overflow:hidden;
 }
 
 h1{
-margin-top:80px;
-font-size:40px;
-}
-
-button{
-font-size:25px;
-padding:15px 35px;
-margin:10px;
-cursor:pointer;
-}
-
-#nao{
-position:relative;
+color:red;
+font-size:42px;
 }
 
 img{
-width:250px;
-margin-top:30px;
+width:260px;
+border-radius:15px;
+margin:15px;
+}
+
+button{
+font-size:22px;
+padding:12px 25px;
+margin:10px;
+border-radius:10px;
+border:none;
+cursor:pointer;
+}
+
+#sim{
+background:#00ff88;
+}
+
+#nao{
+background:#ff4444;
+position:absolute;
+left:50%;
+top:65%;
+transform:translate(-50%,-50%);
+}
+
+#contador{
+margin-top:10px;
+font-size:18px;
+color:#aaa;
+}
+
+#radar{
+font-size:20px;
+margin-top:10px;
+color:orange;
+}
+
+.numero67{
+position:absolute;
+font-size:40px;
+color:red;
+animation:piscando 0.7s infinite;
+}
+
+.meme{
+position:absolute;
+width:120px;
+animation:cair 6s linear forwards;
+}
+
+@keyframes cair{
+0%{transform:translateY(-100px)}
+100%{transform:translateY(110vh)}
+}
+
+.treme{
+animation:tremer 0.15s infinite;
+}
+
+@keyframes tremer{
+0%{transform:translate(0,0)}
+25%{transform:translate(6px,-6px)}
+50%{transform:translate(-6px,6px)}
+75%{transform:translate(6px,6px)}
+100%{transform:translate(-6px,-6px)}
+}
+
+@keyframes piscando{
+0%{opacity:1}
+50%{opacity:0.2}
+100%{opacity:1}
 }
 
 </style>
-
 </head>
 
 <body>
 
-<audio autoplay loop>
-<source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mp3">
+<h1>⚠️ ALERTA ⚠️</h1>
+
+<p>Sistema suspeito detectado</p>
+
+<img id="meme" src="inicio.jpg">
+
+<h2 id="texto">Quer namorar comigo?</h2>
+
+<button id="sim">SIM</button>
+<button id="nao">NÃO</button>
+
+<div id="contador"></div>
+<div id="radar"></div>
+
+<audio id="boom">
+<source src="https://www.myinstants.com/media/sounds/vine-boom.mp3">
 </audio>
 
-<h1>🚨 PERGUNTA MUITO SÉRIA 🚨</h1>
-
-<img src="https://i.imgur.com/6X4Kp7R.png">
-
-<h2>Quer namorar comigo? 😳</h2>
-
-<button onclick="sim()">SIM</button>
-<button id="nao">NÃO</button>
+<audio id="risada">
+<source src="https://www.myinstants.com/media/sounds/evil-laugh.mp3">
+</audio>
 
 <script>
 
-const nao=document.getElementById("nao")
+let tentativas = 0
+let distancia = 8
 
-nao.addEventListener("mouseover",()=>{
+const nao = document.getElementById("nao")
+const texto = document.getElementById("texto")
+const meme = document.getElementById("meme")
+const contador = document.getElementById("contador")
+const radar = document.getElementById("radar")
 
-const x=Math.random()*window.innerWidth
-const y=Math.random()*window.innerHeight
+const boom = document.getElementById("boom")
+const risada = document.getElementById("risada")
 
-nao.style.position="absolute"
+function fugir(){
+
+tentativas++
+
+contador.innerHTML="Tentativas de apertar NÃO: "+tentativas
+
+boom.play()
+
+if(tentativas==1){
+
+texto.innerHTML="🤨 tentando apertar NÃO?"
+meme.src="resenha.jpg"
+
+}
+
+if(tentativas==2){
+
+texto.innerHTML="⚠️ sistema detectou tentativa de fuga"
+
+}
+
+if(tentativas==3){
+
+texto.innerHTML="aceita logo carai"
+
+}
+
+if(tentativas==4){
+
+texto.innerHTML="🚨 ativando radar"
+
+document.body.classList.add("treme")
+
+iniciarRadar()
+
+}
+
+if(tentativas==5){
+
+texto.innerHTML="💀 você insiste demais"
+
+chuvaMemes()
+mostrar67()
+
+}
+
+let x=Math.random()*window.innerWidth
+let y=Math.random()*window.innerHeight
+
 nao.style.left=x+"px"
 nao.style.top=y+"px"
 
-})
+}
 
-function sim(){
+nao.addEventListener("mouseover", fugir)
+
+function iniciarRadar(){
+
+let intervalo=setInterval(()=>{
+
+distancia--
+
+radar.innerHTML="🚨 Fiscal de memes chegando: "+distancia+" km"
+
+if(distancia<=0){
+
+radar.innerHTML="💀 Fiscal de memes chegou"
+
+risada.play()
+
+clearInterval(intervalo)
+
+}
+
+},1200)
+
+}
+
+function chuvaMemes(){
+
+setInterval(()=>{
+
+let img=document.createElement("img")
+
+img.src=Math.random()>0.5?"inicio.jpg":"resenha.jpg"
+
+img.className="meme"
+
+img.style.left=Math.random()*100+"vw"
+
+document.body.appendChild(img)
+
+setTimeout(()=>img.remove(),6000)
+
+},700)
+
+}
+
+function mostrar67(){
+
+for(let i=0;i<20;i++){
+
+let num=document.createElement("div")
+
+num.innerHTML="67"
+
+num.className="numero67"
+
+num.style.left=Math.random()*100+"vw"
+num.style.top=Math.random()*100+"vh"
+
+document.body.appendChild(num)
+
+}
+
+}
+
+document.getElementById("sim").onclick=function(){
 
 document.body.innerHTML=`
 
-<h1>😳 CALMA</h1>
-<h2>Analisando decisão...</h2>
+<h1>😳 VOCÊ APERTOU SIM</h1>
+
+<img src="inicio.jpg">
+
+<p>processando decisão...</p>
 
 `
 
@@ -82,50 +270,17 @@ setTimeout(()=>{
 
 document.body.innerHTML=`
 
-<h1>🤔 Hmmmm...</h1>
-<h2>Talvez só em 2028</h2>
+<h1>💀 TROLL FINAL</h1>
 
-<img src="https://i.imgur.com/8QfQF5F.png">
+<img src="resenha.jpg">
 
-<button onclick="continuar()">Continuar</button>
+<h2>eu só namoro em 2028 talvez</h2>
 
-`
-
-},3000)
-
-}
-
-function continuar(){
-
-document.body.innerHTML=`
-
-<h1>💀 VOCÊ CAIU NO SHITPOST</h1>
-
-<img src="https://i.imgur.com/tV6Y9sX.gif">
-
-<h2>Ronaldo vendo isso:</h2>
-
-<button onclick="final()">ACEITAR DESTINO</button>
+<p>parabéns você caiu no experimento social</p>
 
 `
 
-}
-
-function final(){
-
-document.body.innerHTML=`
-
-<h1>😈 TROLL FINAL</h1>
-
-<h2>Agora você oficialmente aceitou namorar comigo</h2>
-
-<h3>Não tem botão de voltar</h3>
-
-<h3>Parabéns 😂</h3>
-
-<img src="https://i.imgur.com/Yq7XGQK.gif">
-
-`
+},4000)
 
 }
 
